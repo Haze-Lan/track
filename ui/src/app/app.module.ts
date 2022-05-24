@@ -13,6 +13,7 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { LayoutModule } from './layout/layout.module';
+import { FeatureModule } from './feature/feature.module';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ registerLocaleData(zh);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    LayoutModule
+    LayoutModule,
+    FeatureModule
+
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
