@@ -1,36 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import XYZ from 'ol/source/XYZ';
+import { GeoMap } from 'src/app/GeoMap';
+
 @Component({
   selector: 'app-trace-map',
   templateUrl: './trace-map.component.html',
   styleUrls: ['./trace-map.component.less']
 })
 export class TraceMapComponent implements OnInit {
-  map!: Map;
+  map!: GeoMap;
   constructor() { }
 
   ngOnInit(): void {
-    this.initMap()
+    this.map = new GeoMap("map");
+    this.map.init();
+    navigator.geolocation.getCurrentPosition(position => {
+      this.map.zoomAndCenter(position.coords.longitude, position.coords.latitude)
+    });
   }
 
   initMap(): void {
-    this.map = new Map({
-      target: 'map',
-      layers: [
-        new TileLayer({
-          source: new XYZ({
-            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          })
-        })
-      ],
-      view: new View({
-        center: [0, 0],
-        zoom: 2
-      })
-    });
+
   }
 
 }
