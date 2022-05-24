@@ -1,9 +1,12 @@
-<div style=" display: flex;flex-direction: row;width: 100vw;height: 100vh;">
-    <div style="width: 200px;">
-        <ul nz-menu nzMode="inline" nzTheme="dark">
-            <li nz-menu-item>Option 3</li>
-            <li nz-menu-item>Option 4</li>
-        </ul>
-    </div>
-    <div style="flex:1;"></div>
-</div>
+<nz-layout>
+  <nz-sider>
+    <ul nz-menu nzMode="inline" nzTheme="dark">
+      <li nz-menu-item routerLink="trace">轨迹数据</li>
+      <li nz-menu-item>Option 10</li>
+      <li nz-menu-item>Option 11</li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>Content</nz-content>
+  </nz-layout>
+</nz-layout>
