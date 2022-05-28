@@ -1,7 +1,31 @@
 
 <div class="map" id="map"></div>
 <div class="drawer">
-    <nz-input-group nzAddOnBefore="Http://" nzAddOnAfter=".com">
-        <input type="text" nz-input />
-    </nz-input-group>
+     <div class="head">
+         
+            <nz-switch [ngModel]="true" nzCheckedChildren="实时" nzUnCheckedChildren="录制"></nz-switch>
+       
+
+            <button nz-button nzType="text">连接</button>
+
+         <button nz-button nzType="primary" nzShape="circle" [nzSize]="'small'">
+            <i nz-icon nzType="history" nzTheme="outline"></i>
+        </button>
+     </div>  
+     <div class="info"> 
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+            <nz-form-item>
+              <nz-form-label  nzRequired nzFor="number">设备编号</nz-form-label>
+              <nz-form-control nzErrorTip="请输入设备编号">
+                <input type="text" nz-input formControlName="number" placeholder="请输入设备编号" />
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+     </div>
+     <div class="items">
+
+     </div>
+     <div class="log"> 
+
+     </div>
 </div>

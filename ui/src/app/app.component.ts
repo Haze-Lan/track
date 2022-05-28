@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GeoMap } from './GeoMap';
 
 @Component({
@@ -8,7 +9,8 @@ import { GeoMap } from './GeoMap';
 })
 export class AppComponent {
   map!: GeoMap;
-  constructor() { }
+  validateForm!: FormGroup;
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.map = new GeoMap("map");
@@ -16,5 +18,21 @@ export class AppComponent {
     navigator.geolocation.getCurrentPosition(position => {
       this.map.zoomAndCenter(position.coords.longitude, position.coords.latitude)
     });
+    this.validateForm = this.fb.group({
+      number: [null, [Validators.required]],
+    });
+  }
+
+  submitForm(): void {
+    if (this.validateForm.valid) {
+      console.log('submit', this.validateForm.value);
+    } else {
+      Object.values(this.validateForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 }
