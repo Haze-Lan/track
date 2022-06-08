@@ -28,7 +28,7 @@
      </div>
      <div class="items">
         <nz-timeline >
-            <nz-timeline-item *ngFor="let item of items;">{{item}}</nz-timeline-item>
+            <nz-timeline-item *ngFor="let item of items;">{{ item.time | date:'yyyy-MM-dd HH:mm:ss'}}</nz-timeline-item>
           </nz-timeline>
      </div>
      <div class="log"> 

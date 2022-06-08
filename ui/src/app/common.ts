@@ -16,3 +16,12 @@ export  class  TraceItem {
     //日期时间
     time:Date=new Date();
 }
+//指令类容
+export declare class CMD{
+    mode:CMDType;
+    data:{}
+}
+
+export enum CMDType{
+
+}
