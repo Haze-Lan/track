@@ -3,6 +3,7 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import { transform } from 'ol/proj';
+import { MapClickCallback } from './common';
 export class GeoMap {
     private mapObject!: Map;
     private target!: string;
@@ -43,5 +44,10 @@ export class GeoMap {
         this.mapObject.getView().setCenter(point)
     }
 
-
+    public listenClick(callback: MapClickCallback): void {
+        this.mapObject.on('singleclick', (evt) => {
+            const point = transform([evt.coordinate[0], evt.coordinate[1]], 'EPSG:3857', 'EPSG:4326')
+            callback(point[0], point[1])
+        });
+    }
 }

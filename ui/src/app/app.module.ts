@@ -18,6 +18,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ registerLocaleData(zh);
     NzDrawerModule,
     NzButtonModule,NzIconModule,
     NzFormModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzTimelineModule
 
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],

@@ -8,9 +8,7 @@
 
             <button nz-button nzType="text">连接</button>
 
-         <button nz-button nzType="primary" nzShape="circle" [nzSize]="'small'">
-            <i nz-icon nzType="history" nzTheme="outline"></i>
-        </button>
+     
      </div>  
      <div class="info"> 
         <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
@@ -29,7 +27,9 @@
           </form>
      </div>
      <div class="items">
-
+        <nz-timeline >
+            <nz-timeline-item *ngFor="let item of items;">{{item}}</nz-timeline-item>
+          </nz-timeline>
      </div>
      <div class="log"> 
 
