@@ -1,6 +1,7 @@
 export type MapClickCallback=(longitude:number,latitude:number)=>void
 
 export  class  TraceItem {
+    second:number=0;
     //经度
     longitude:number=0;
     //纬度

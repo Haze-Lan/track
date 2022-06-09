@@ -19,6 +19,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ registerLocaleData(zh);
     NzButtonModule,NzIconModule,
     NzFormModule,
     NzSwitchModule,
-    NzTimelineModule
+    NzTimelineModule,
+    NzGridModule,
+    NzDatePickerModule
 
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],

@@ -1,37 +1,57 @@
-
 <div class="map" id="map"></div>
 <div class="drawer">
-     <div class="head">
-         
-            <nz-switch [ngModel]="true" nzCheckedChildren="实时" nzUnCheckedChildren="录制"></nz-switch>
-       
+    <div class="head">
 
-            <button nz-button nzType="text">连接</button>
+        <nz-switch [ngModel]="isLive" (click)="isLive=!isLive" nzCheckedChildren="实时" nzUnCheckedChildren="录制"></nz-switch>
 
-     
-     </div>  
-     <div class="info"> 
-        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+
+        <button nz-button nzType="text" (click)="submitForm()">连接</button>
+
+
+    </div>
+    <div class="info">
+        <form nz-form [formGroup]="validateForm">
+
             <nz-form-item>
-              <nz-form-label  nzRequired nzFor="number">设备编号</nz-form-label>
-              <nz-form-control nzErrorTip="请输入设备编号">
-                <input type="text" nz-input formControlName="number" placeholder="请输入设备编号" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-label  nzRequired nzFor="address">网关地址</nz-form-label>
+                <nz-form-label nzRequired nzFor="address">网关地址</nz-form-label>
                 <nz-form-control nzErrorTip="请输入网关地址">
-                  <input type="text" nz-input formControlName="address" placeholder="请输入网关地址" />
+                    <input type="text" [readonly]="isConnect" nz-input formControlName="address" placeholder="请输入网关地址" />
                 </nz-form-control>
-              </nz-form-item>
-          </form>
-     </div>
-     <div class="items">
-        <nz-timeline >
-            <nz-timeline-item *ngFor="let item of items;">{{ item.time | date:'yyyy-MM-dd HH:mm:ss'}}</nz-timeline-item>
-          </nz-timeline>
-     </div>
-     <div class="log"> 
+            </nz-form-item>
+            <div nz-row [nzGutter]="22">
+                <div nz-col nzSpan="10">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzFor="number">设备编号</nz-form-label>
+                        <nz-form-control nzErrorTip="请输入设备编号">
+                            <input type="text" [readonly]="isConnect" nz-input formControlName="number" placeholder="请输入设备编号" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-col nzSpan="14">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzFor="timing">起始时刻</nz-form-label>
+                        <nz-form-control nzErrorTip="请选择起始时刻">
+                            <nz-date-picker [nzDisabled]="isConnect" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="timing">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="items">
+        <nz-timeline [nzMode]="'left'">
+            <nz-timeline-item [nzLabel]="lableTemplate" *ngFor="let item of items;">
+                <ng-template #lableTemplate>
+                    {{item.second}}'
+                </ng-template>{{ item.time | date:'yyyy-MM-dd HH:mm:ss'}}
 
-     </div>
+
+            </nz-timeline-item>
+
+        </nz-timeline>
+    </div>
+    <div class="log">
+
+    </div>
 </div>

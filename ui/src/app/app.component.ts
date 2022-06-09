@@ -12,6 +12,10 @@ export class AppComponent {
   items: TraceItem[] = []
   map!: GeoMap;
   validateForm!: FormGroup;
+  second: number = 0;
+  isLive: boolean = true;
+  isConnect:boolean=false;
+  interval!: any
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -22,6 +26,7 @@ export class AppComponent {
     });
     this.map.listenClick((longitude: number, latitude: number) => {
       let data: TraceItem = {
+        second: this.second,
         longitude: longitude,
         latitude: latitude,
         speed: 0,
@@ -30,11 +35,17 @@ export class AppComponent {
         direction: 0,
         time: new Date()
       };
-
+      if (!this.interval) {
+        this.interval = setInterval(() => {
+          this.second = this.second + 1;
+        }, 1000)
+      }
       this.items.push(data)
     });
     this.validateForm = this.fb.group({
       number: [null, [Validators.required]],
+      timing: [null, [Validators.required]],
+      address: [null, [Validators.required]],
     });
   }
 
@@ -50,4 +61,6 @@ export class AppComponent {
       });
     }
   }
+
+
 }
