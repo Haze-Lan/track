@@ -21,6 +21,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ registerLocaleData(zh);
     NzSwitchModule,
     NzTimelineModule,
     NzGridModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzSpaceModule
 
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],

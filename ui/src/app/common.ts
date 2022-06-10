@@ -24,5 +24,5 @@ export declare class CMD{
 }
 
 export enum CMDType{
-
+    Login,Point
 }

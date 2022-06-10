@@ -2,12 +2,17 @@
 <div class="drawer">
     <div class="head">
 
-        <nz-switch [ngModel]="isLive" (click)="isLive=!isLive" nzCheckedChildren="实时" nzUnCheckedChildren="录制"></nz-switch>
+        <nz-switch [(ngModel)]="isLive" (click)="!isLive" nzCheckedChildren="实时" nzUnCheckedChildren="录制">
+        </nz-switch>
 
-
-        <button nz-button nzType="text" (click)="submitForm()">连接</button>
-
-
+        <button nz-button nzType="default" (click)="submitForm()">
+            <span *ngIf="!isConnect">
+                <i nz-icon nzType="disconnect" nzTheme="outline"></i> 连接
+            </span>
+            <span *ngIf="isConnect">
+                <i nz-icon nzType="check-circle" nzTheme="outline"></i> 断开
+            </span>
+        </button>
     </div>
     <div class="info">
         <form nz-form [formGroup]="validateForm">
@@ -15,7 +20,8 @@
             <nz-form-item>
                 <nz-form-label nzRequired nzFor="address">网关地址</nz-form-label>
                 <nz-form-control nzErrorTip="请输入网关地址">
-                    <input type="text" [readonly]="isConnect" nz-input formControlName="address" placeholder="请输入网关地址" />
+                    <input type="text" [readonly]="isConnect" nz-input formControlName="address"
+                        placeholder="请输入网关地址" />
                 </nz-form-control>
             </nz-form-item>
             <div nz-row [nzGutter]="22">
@@ -23,7 +29,8 @@
                     <nz-form-item>
                         <nz-form-label nzRequired nzFor="number">设备编号</nz-form-label>
                         <nz-form-control nzErrorTip="请输入设备编号">
-                            <input type="text" [readonly]="isConnect" nz-input formControlName="number" placeholder="请输入设备编号" />
+                            <input type="text" [readonly]="isConnect" nz-input formControlName="number"
+                                placeholder="请输入设备编号" />
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -31,7 +38,8 @@
                     <nz-form-item>
                         <nz-form-label nzRequired nzFor="timing">起始时刻</nz-form-label>
                         <nz-form-control nzErrorTip="请选择起始时刻">
-                            <nz-date-picker [nzDisabled]="isConnect" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss" formControlName="timing">
+                            <nz-date-picker [nzDisabled]="isConnect" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"
+                                formControlName="timing">
                             </nz-date-picker>
                         </nz-form-control>
                     </nz-form-item>
@@ -39,16 +47,22 @@
             </div>
         </form>
     </div>
+    <div class="tool" *ngIf="isConnect">
+        <nz-space>
+            <button [nzSize]="'small'" *nzSpaceItem nz-button nzType="text" (click)="clear()"><i nz-icon nzType="clear" nzTheme="outline"></i></button>
+            <button [nzSize]="'small'" *nzSpaceItem nz-button nzType="text"><i nz-icon nzType="play-circle" nzTheme="outline"></i></button>
+            <button [nzSize]="'small'" *nzSpaceItem nz-button nzType="text">  <i nz-icon nzType="reload" nzTheme="outline"></i></button>
+        </nz-space>
+    </div>
     <div class="items">
         <nz-timeline [nzMode]="'left'">
             <nz-timeline-item [nzLabel]="lableTemplate" *ngFor="let item of items;">
                 <ng-template #lableTemplate>
                     {{item.second}}'
-                </ng-template>{{ item.time | date:'yyyy-MM-dd HH:mm:ss'}}
-
-
+                </ng-template>
+               <div><span *ngIf="isLive">{{ item.time | date:'yyyy-MM-dd HH:mm:ss'}}</span>  [{{item.longitude}},{{item.latitude}}]</div> 
+                Speed:{{item.speed}} km/h Oil:{{item.oil}} L
             </nz-timeline-item>
-
         </nz-timeline>
     </div>
     <div class="log">

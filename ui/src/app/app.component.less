@@ -31,7 +31,14 @@
         border-bottom: 1px solid #dedede;
     }
 
+    .tool {
+        margin-top: 6px;
+        border-bottom: 1px solid #dedede;
+        padding-bottom: 6px;
+    }
+
     .items {
+
         flex: 1;
         padding-top: 12px;
         overflow-y: scroll;
@@ -57,21 +64,28 @@
         ::-webkit-scrollbar-thumb:window-inactive {
             background: rgba(255, 0, 0, 0.4);
         }
-        ::ng-deep{
-            .ant-timeline-item-label{
+
+        ::ng-deep {
+            .ant-timeline-item-label {
                 width: 35px;
             }
-            .ant-timeline-item-head{
+
+            .ant-timeline-item-head {
                 left: 50px;
             }
-            .ant-timeline-item-content{
+
+            .ant-timeline-item-content {
                 left: 45px;
+                right: 0px;
+                width: 430px;
             }
-            .ant-timeline-item-tail{
+
+            .ant-timeline-item-tail {
                 left: 50px;
             }
+
         }
-        
+
     }
 
 }
