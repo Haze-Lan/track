@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"server/protocol"
+	"time"
 )
 
 var upgrader = websocket.Upgrader{
@@ -20,15 +23,25 @@ func ws(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 	for {
-		mt, message, err := c.ReadMessage()
+		_, message, err := c.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
 			break
 		}
-		log.Printf("recv: %s", message)
-		err = c.WriteMessage(mt, message)
-		if err != nil {
-			log.Println("write:", err)
+		cmd := protocol.WsCommond{}
+		err = json.Unmarshal(message, &cmd)
+		switch cmd.Mode {
+		case 0:
+			cc := protocol.ConnectCommond{}
+			err = json.Unmarshal([]byte(cmd.Data), &cc)
+			timing, _ := time.Parse("2016-01-01 20:03:04", cc.Timing)
+			Connect(cc.Address, cc.Number, timing)
+			Auth(cc.Number)
+			break
+		case 1:
+			cc := protocol.TraceItem{}
+			err = json.Unmarshal([]byte(cmd.Data), &cc)
+			Report("", cc.Longitude, cc.Latitude)
 			break
 		}
 	}

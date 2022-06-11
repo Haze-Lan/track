@@ -63,7 +63,7 @@ export class AppComponent {
       if (this.isLive) {
         let cmd: CMD = {
           mode: CMDType.Point,
-          data: data
+          data: JSON.stringify(data) 
         }
         this.socket.sendCMD(cmd)
       }
@@ -85,6 +85,8 @@ export class AppComponent {
       this.timing = this.validateForm.value.timing
       this.socket.connect(this.validateForm.value.address, this.validateForm.value.number, format(this.timing, "yyyy-mm-dd HH:mm:ss"), () => {
         this.isConnect = true;
+      },()=>{
+        this.isConnect = false;
       })
     } else {
       Object.values(this.validateForm.controls).forEach(control => {

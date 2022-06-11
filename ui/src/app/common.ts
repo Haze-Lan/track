@@ -20,7 +20,7 @@ export  class  TraceItem {
 //指令类容
 export declare class CMD{
     mode:CMDType;
-    data:{}
+    data:string
 }
 
 export enum CMDType{

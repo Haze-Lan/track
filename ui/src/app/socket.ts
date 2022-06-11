@@ -4,15 +4,15 @@ import { CMD, CMDType } from "./common";
 export class Socket {
     client!: WebSocket
     //连接服务器
-    public connect(address: string, number: string, time:string ,callback: () => void | undefined): void {
+    public connect(address: string, number: string, time: string, callback: () => void ,closeCallback: () => void ): void {
         this.client = new WebSocket(environment.server)
         let data: CMD = {
             mode: CMDType.Login,
-            data: {
+            data: JSON.stringify({
                 address: address,
                 number: number,
-                timing:time,
-            }
+                timing: time,
+            })
         }
         this.client.onopen = () => {
             this.sendCMD(data);
@@ -20,7 +20,12 @@ export class Socket {
                 callback()
             }
         }
-
+        this.client.close = () => {
+     
+            if (closeCallback) {
+                closeCallback()
+            }
+        }
     }
     //断开连接
     public disconnect(): void {
