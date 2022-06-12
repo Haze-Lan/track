@@ -3,9 +3,25 @@ import { CMD, CMDType } from "./common";
 
 export class Socket {
     client!: WebSocket
-    //连接服务器
-    public connect(address: string, number: string, time: string, callback: () => void ,closeCallback: () => void ): void {
+
+    constructor(openCallback: () => void, closeCallback: () => void) {
         this.client = new WebSocket(environment.server)
+        this.client.onopen = () => {
+
+            if (openCallback) {
+                openCallback()
+            }
+        }
+        this.client.close = () => {
+
+            if (closeCallback) {
+                closeCallback()
+            }
+        }
+    }
+    //连接服务器
+    public connect(address: string, number: string, time: string): void {
+
         let data: CMD = {
             mode: CMDType.Login,
             data: JSON.stringify({
@@ -14,18 +30,7 @@ export class Socket {
                 timing: time,
             })
         }
-        this.client.onopen = () => {
-            this.sendCMD(data);
-            if (callback) {
-                callback()
-            }
-        }
-        this.client.close = () => {
-     
-            if (closeCallback) {
-                closeCallback()
-            }
-        }
+        this.sendCMD(data);
     }
     //断开连接
     public disconnect(): void {

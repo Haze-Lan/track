@@ -22,8 +22,6 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import {APP_BASE_HREF} from '@angular/common';
-import { environment } from 'src/environments/environment';
 registerLocaleData(zh);
 @NgModule({
   declarations: [
@@ -50,7 +48,7 @@ registerLocaleData(zh);
     NzSpaceModule
 
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN },{provide: APP_BASE_HREF, useValue: environment.basePath}],
+  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

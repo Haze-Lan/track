@@ -31,6 +31,7 @@ func ws(w http.ResponseWriter, r *http.Request) {
 		}
 		cmd := protocol.WsCommond{}
 		err = json.Unmarshal(message, &cmd)
+		println("server rec:" + string(message))
 		switch cmd.Mode {
 		case 0:
 			cc := protocol.ConnectCommond{}

@@ -17,15 +17,14 @@ type Terminal struct {
 
 //连接设备网关
 func Connect(address string, number string) (*Terminal, error) {
-	log.SetFlags(0)
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 	c, err := net.Dial("tcp", address)
 	if err != nil {
-		log.Fatal("dial:", err)
+		println("dial:", err)
 		return nil, err
 	}
-	log.Print(c.LocalAddr().String() + "->" + c.RemoteAddr().String())
+	println(c.LocalAddr().String() + "->" + c.RemoteAddr().String())
 	return &Terminal{
 		con:    c,
 		number: number,
@@ -54,12 +53,12 @@ func (t *Terminal) Auth() {
 	str = "7e" + str + "7e"
 	//7e 0102 0000 00000001 0001 000000000000 00 7e
 	b, _ = hex.DecodeString(str)
-	write, err := t.con.Write(escape(b))
+	_, err := t.con.Write(escape(b))
 	if err != nil {
 		log.Print(err)
 		return
 	}
-	log.Print("write:", write)
+	println("write:", b)
 }
 
 //上报包
@@ -122,16 +121,17 @@ func (t *Terminal) Report(lng float64, lat float64, speed float64, time string) 
 	str += hex.EncodeToString([]byte{coPcheckCode(b)})
 	str = "7e" + str + "7e"
 	b, _ = hex.DecodeString(str)
-	write, err := t.con.Write(escape(b))
+	_, err := t.con.Write(escape(b))
 	if err != nil {
 		log.Print(err)
 		return
 	}
-	log.Print("write:", write)
+	println("write:", b)
 }
 
 func (t *Terminal) Disconnect() {
 	t.con.Close()
+	println("close:" + t.con.RemoteAddr().String())
 }
 
 //最终数据编码

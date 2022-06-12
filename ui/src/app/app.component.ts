@@ -24,7 +24,11 @@ export class AppComponent {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.socket = new Socket()
+    this.socket = new Socket(() => {
+      //this.isConnect = true;
+    }, () => {
+     // this.isConnect = false;
+    })
     this.map = new GeoMap("map");
     this.map.init();
     navigator.geolocation.getCurrentPosition(position => {
@@ -43,9 +47,9 @@ export class AppComponent {
           speed = pre.speed
         }
       }
-      let nodeTiming =format(addSeconds(this.timing, this.second),"yyMMddHHmmss") 
+      let nodeTiming = format(addSeconds(this.timing, this.second), "yyMMddHHmmss")
       let data: TraceItem = {
-        number:this.validateForm.value.number,
+        number: this.validateForm.value.number,
         second: this.second,
         longitude: longitude,
         latitude: latitude,
@@ -64,7 +68,7 @@ export class AppComponent {
       if (this.isLive) {
         let cmd: CMD = {
           mode: CMDType.Point,
-          data: JSON.stringify(data) 
+          data: JSON.stringify(data)
         }
         this.socket.sendCMD(cmd)
       }
@@ -78,24 +82,22 @@ export class AppComponent {
 
   submitForm(): void {
     if (this.isConnect) {
-      this.socket.sendCMD({mode:CMDType.Logout,data:this.validateForm.value.number})
+      this.socket.sendCMD({ mode: CMDType.Logout, data: this.validateForm.value.number })
       this.isConnect = false;
       return
-    }
-    if (this.validateForm.valid) {
-      this.timing = this.validateForm.value.timing
-      this.socket.connect(this.validateForm.value.address, this.validateForm.value.number, format(this.timing, "yyyy-mm-dd HH:mm:ss"), () => {
-        this.isConnect = true;
-      },()=>{
-        this.isConnect = false;
-      })
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
+      if (this.validateForm.valid) {
+        this.timing = this.validateForm.value.timing
+        this.socket.connect(this.validateForm.value.address, this.validateForm.value.number, format(this.timing, "yyyy-mm-dd HH:mm:ss"))
+        this.isConnect = true;
+      } else {
+        Object.values(this.validateForm.controls).forEach(control => {
+          if (control.invalid) {
+            control.markAsDirty();
+            control.updateValueAndValidity({ onlySelf: true });
+          }
+        });
+      }
     }
   }
 
