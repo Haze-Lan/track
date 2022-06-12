@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  server:""
+  server:"ws://"+location.host+":"+location.port+"/ws",
+  basePath:"/static"
 };

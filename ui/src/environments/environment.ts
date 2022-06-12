@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  server:"ws://127.0.0.1/ws"
+  server:"ws://127.0.0.1/ws",
+  basePath:"/"
 };
 
 /*
