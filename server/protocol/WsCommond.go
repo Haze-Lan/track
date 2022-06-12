@@ -8,6 +8,7 @@ type WsCommond struct {
 
 //
 type TraceItem struct {
+	Number string `json:"number"`
 	//经度
 	Longitude float64 `json:"longitude"`
 	//纬度

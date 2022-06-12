@@ -31,6 +31,7 @@ export class AppComponent {
       this.map.zoomAndCenter(position.coords.longitude, position.coords.latitude)
     });
     this.map.listenClick((longitude: number, latitude: number) => {
+
       let speed = 0;
       if (this.items.length >= 1) {
         const pre = this.items[this.items.length - 1];
@@ -42,9 +43,9 @@ export class AppComponent {
           speed = pre.speed
         }
       }
-      let nodeTiming:Date = addSeconds(this.timing, this.second)
-
+      let nodeTiming =format(addSeconds(this.timing, this.second),"yyMMddHHmmss") 
       let data: TraceItem = {
+        number:this.validateForm.value.number,
         second: this.second,
         longitude: longitude,
         latitude: latitude,
@@ -69,15 +70,15 @@ export class AppComponent {
       }
     });
     this.validateForm = this.fb.group({
-      number: [null, [Validators.required]],
+      number: ["000000109647", [Validators.required]],
       timing: [null, [Validators.required]],
-      address: [null, [Validators.required]],
+      address: ["118.114.196.123:10112", [Validators.required]],
     });
   }
 
   submitForm(): void {
     if (this.isConnect) {
-      this.socket.disconnect();
+      this.socket.sendCMD({mode:CMDType.Logout,data:this.validateForm.value.number})
       this.isConnect = false;
       return
     }

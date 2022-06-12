@@ -1,6 +1,7 @@
 export type MapClickCallback=(longitude:number,latitude:number)=>void
 
 export  class  TraceItem {
+    number:string=""
     second:number=0;
     //经度
     longitude:number=0;
@@ -15,7 +16,7 @@ export  class  TraceItem {
     //方位
     direction:number=0;
     //日期时间
-    time:Date=new Date();
+    time:string="";
 }
 //指令类容
 export declare class CMD{
@@ -24,5 +25,5 @@ export declare class CMD{
 }
 
 export enum CMDType{
-    Login,Point
+    Login,Point,Logout
 }

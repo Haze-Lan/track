@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"server/protocol"
-	"time"
 )
 
 var upgrader = websocket.Upgrader{
@@ -14,6 +13,8 @@ var upgrader = websocket.Upgrader{
 		return true
 	},
 }
+
+var terminalMap = make(map[string]*Terminal, 10000)
 
 func ws(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
@@ -34,15 +35,24 @@ func ws(w http.ResponseWriter, r *http.Request) {
 		case 0:
 			cc := protocol.ConnectCommond{}
 			err = json.Unmarshal([]byte(cmd.Data), &cc)
-			timing, _ := time.Parse("2016-01-01 20:03:04", cc.Timing)
-			Connect(cc.Address, cc.Number, timing)
-			Auth(cc.Number)
+			t, err := Connect(cc.Address, cc.Number)
+			if err != nil {
+				c.WriteJSON("连接失败")
+			}
+			terminalMap[cc.Number] = t
+			t.Auth()
 			break
 		case 1:
 			cc := protocol.TraceItem{}
 			err = json.Unmarshal([]byte(cmd.Data), &cc)
-			Report("", cc.Longitude, cc.Latitude)
+			terminalMap[cc.Number].Report(cc.Longitude, cc.Latitude, cc.Speed, cc.Time)
 			break
+		case 2:
+			terminalMap[cmd.Data].Disconnect()
+			break
+		}
+		for _, v := range terminalMap {
+			v.Disconnect()
 		}
 	}
 }
