@@ -58,7 +58,7 @@ func (t *Terminal) Auth() {
 		log.Print(err)
 		return
 	}
-	println("write:", b)
+	println("write:", str)
 }
 
 //上报包
@@ -126,7 +126,7 @@ func (t *Terminal) Report(lng float64, lat float64, speed float64, time string) 
 		log.Print(err)
 		return
 	}
-	println("write:", b)
+	println("write:", str)
 }
 
 func (t *Terminal) Disconnect() {

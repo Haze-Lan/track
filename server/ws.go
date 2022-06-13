@@ -39,6 +39,7 @@ func ws(w http.ResponseWriter, r *http.Request) {
 			t, err := Connect(cc.Address, cc.Number)
 			if err != nil {
 				c.WriteJSON("连接失败")
+				continue
 			}
 			terminalMap[cc.Number] = t
 			t.Auth()
@@ -52,8 +53,9 @@ func ws(w http.ResponseWriter, r *http.Request) {
 			terminalMap[cmd.Data].Disconnect()
 			break
 		}
-		for _, v := range terminalMap {
-			v.Disconnect()
-		}
+
+	}
+	for _, v := range terminalMap {
+		v.Disconnect()
 	}
 }
